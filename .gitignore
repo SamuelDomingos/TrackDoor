@@ -35,6 +35,8 @@ pnpm-debug.log*
 #prisma migrates
 /prisma/migrations
 
+middleware.ts
+
 .openclaude-profile.json
 
 # typescript

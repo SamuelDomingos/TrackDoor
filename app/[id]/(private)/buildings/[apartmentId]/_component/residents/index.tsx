@@ -10,12 +10,7 @@ const ResidentsSection = ({
   residents,
   apartmentId,
 }: {
-  residents: {
-    id: string
-    name: string
-    email: string
-    phone: string | null
-  }[]
+  residents: Resident[],
   apartmentId: string
 }) => {
   const formResident = useFormResident(apartmentId)

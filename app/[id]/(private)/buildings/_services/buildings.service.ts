@@ -5,6 +5,7 @@ export async function getBuildings(condominiumId: string) {
     {
       id: "build-1",
       name: "Torre A",
+      condominiumId,
       apartments: [
         { id: "apt-1", number: "101", _count: { packages: 2 } },
         { id: "apt-2", number: "102", _count: { packages: 0 } },
@@ -14,6 +15,7 @@ export async function getBuildings(condominiumId: string) {
     {
       id: "build-2",
       name: "Torre B",
+      condominiumId,
       apartments: [
         { id: "apt-4", number: "101", _count: { packages: 0 } },
         { id: "apt-5", number: "102", _count: { packages: 5 } },

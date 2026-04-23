@@ -6,9 +6,15 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
-const StepperContext = React.createContext<Stepper.ConfigProps | null>(null);
+type StepperConfig = {
+  variant: "horizontal" | "vertical" | "circle";
+  labelOrientation: "horizontal" | "vertical";
+  tracking: boolean;
+};
 
-const useStepperProvider = (): Stepper.ConfigProps => {
+const StepperContext = React.createContext<StepperConfig | null>(null);
+
+const useStepperProvider = (): StepperConfig => {
   const context = React.useContext(StepperContext);
   if (!context) {
     throw new Error("useStepper must be used within a StepperProvider.");
@@ -18,7 +24,7 @@ const useStepperProvider = (): Stepper.ConfigProps => {
 
 const defineStepper = <const Steps extends Stepperize.Step[]>(
   ...steps: Steps
-): Stepper.DefineProps<Steps> => {
+): any => {
   const { Scoped, useStepper, ...rest } = Stepperize.defineStepper(...steps);
 
   const StepperContainer = ({
@@ -54,7 +60,13 @@ const defineStepper = <const Steps extends Stepperize.Step[]>(
         children,
         className,
         ...props
-      }) => {
+      }: {
+        variant?: "horizontal" | "vertical" | "circle";
+        labelOrientation?: "horizontal" | "vertical";
+        tracking?: boolean;
+        children: React.ReactNode;
+        className?: string;
+      } & any) => {
         return (
           <StepperContext.Provider
             value={{ variant, labelOrientation, tracking }}
@@ -74,7 +86,10 @@ const defineStepper = <const Steps extends Stepperize.Step[]>(
         children,
         "aria-label": ariaLabel = "Stepper Navigation",
         ...props
-      }) => {
+      }: {
+        children: React.ReactNode;
+        "aria-label"?: string;
+      } & any) => {
         const { variant } = useStepperProvider();
         return (
           <nav
@@ -92,7 +107,11 @@ const defineStepper = <const Steps extends Stepperize.Step[]>(
           </nav>
         );
       },
-      Step: ({ children, className, icon, ...props }) => {
+      Step: ({ children, className, icon, ...props }: {
+        children: React.ReactNode;
+        className?: string;
+        icon?: React.ReactNode;
+      } & any) => {
         const { variant, labelOrientation } = useStepperProvider();
         const { current } = useStepper();
 
@@ -225,7 +244,10 @@ const defineStepper = <const Steps extends Stepperize.Step[]>(
       },
       Title,
       Description,
-      Panel: ({ children, asChild, ...props }) => {
+      Panel: ({ children, asChild, ...props }: {
+        children: React.ReactNode;
+        asChild?: boolean;
+      } & any) => {
         const Comp = asChild ? Slot : "div";
         const { tracking } = useStepperProvider();
 
@@ -239,7 +261,11 @@ const defineStepper = <const Steps extends Stepperize.Step[]>(
           </Comp>
         );
       },
-      Controls: ({ children, className, asChild, ...props }) => {
+      Controls: ({ children, className, asChild, ...props }: {
+        children: React.ReactNode;
+        className?: string;
+        asChild?: boolean;
+      } & any) => {
         const Comp = asChild ? Slot : "div";
         return (
           <Comp
@@ -325,7 +351,12 @@ const CircleStepIndicator = ({
   totalSteps,
   size = 80,
   strokeWidth = 6,
-}: Stepper.CircleStepIndicatorProps) => {
+}: {
+  currentStep: number;
+  totalSteps: number;
+  size?: number;
+  strokeWidth?: number;
+}) => {
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
   const fillPercentage = (currentStep / totalSteps) * 100;

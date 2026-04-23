@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
 
     // 1. Find the package and verify it belongs to the resident's apartment
     // We assume the session contains the resident's apartmentId or we fetch the resident first
-    const resident = await prisma.resident.findUnique({
+    const resident = await prisma.resident.findFirst({
       where: { email: session.user.email! },
       select: { apartmentId: true },
     })
@@ -72,7 +72,6 @@ export async function POST(req: NextRequest) {
         data: {
           packageId: packageId,
           action: "PICKED_UP",
-          details: "Confirmado pelo morador via portal",
         },
       }),
     ])
