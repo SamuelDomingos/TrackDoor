@@ -11,6 +11,8 @@
 # testing
 /coverage
 
+/app/generated
+
 # next.js
 /.next/
 /out/

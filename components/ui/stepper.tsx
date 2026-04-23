@@ -113,9 +113,9 @@ const defineStepper = <const Steps extends Stepperize.Step[]>(
         icon?: React.ReactNode;
       } & any) => {
         const { variant, labelOrientation } = useStepperProvider();
-        const { current } = useStepper();
+        const { current } = useStepper() as any;
 
-        const utils = rest.utils;
+        const utils = (rest as any).utils;
         const steps = rest.steps;
 
         const stepIndex = utils.getIndex(props.of);
