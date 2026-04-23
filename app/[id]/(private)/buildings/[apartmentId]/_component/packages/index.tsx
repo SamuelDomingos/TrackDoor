@@ -4,7 +4,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { IconPackage, IconBell, IconCheck } from "@tabler/icons-react"
-import { Package } from "@/app/generated/client"
 
 export function PackagesSection({ packages }: { packages: any[] }) {
   return (

@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { Package, PackageImage, PackageLog } from "@prisma/client"
 import {
   Drawer,
   DrawerClose,
@@ -22,6 +21,7 @@ import {
   Image as ImageIcon,
 } from "lucide-react"
 import Image from "next/image"
+import { Package, PackageImage, PackageLog } from "@/app/generated/client"
 
 interface PackageWithImages extends Package {
   images: PackageImage[]
@@ -121,11 +121,13 @@ export function PackageDetails({ packageData, children }: PackageDetailsProps) {
                       <p className="text-xs text-muted-foreground">
                         {new Date(log.createdAt).toLocaleString("pt-BR")}
                       </p>
-                      {log.metadata && typeof log.metadata === "object" && "details" in log.metadata && (
-                        <p className="mt-1 text-xs text-muted-foreground/80">
-                          {String(log.metadata.details)}
-                        </p>
-                      )}
+                      {log.metadata &&
+                        typeof log.metadata === "object" &&
+                        "details" in log.metadata && (
+                          <p className="mt-1 text-xs text-muted-foreground/80">
+                            {String(log.metadata.details)}
+                          </p>
+                        )}
                     </div>
                   ))
                 ) : (

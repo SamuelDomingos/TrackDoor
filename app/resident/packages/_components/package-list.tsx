@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Package, PackageImage, PackageLog } from "@prisma/client"
+import { Package, PackageImage, PackageLog } from "@/app/generated/client"
 import { PackageItem } from "./package-item"
 import { toast } from "sonner"
 

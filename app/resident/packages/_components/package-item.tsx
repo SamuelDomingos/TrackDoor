@@ -1,6 +1,6 @@
 "use client"
 
-import { Package, PackageImage, PackageLog } from "@prisma/client"
+import { Package, PackageImage, PackageLog } from "@/app/generated/client"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { PackageDetails } from "./package-details"
