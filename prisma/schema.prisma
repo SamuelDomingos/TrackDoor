@@ -1,0 +1,132 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  ADMIN
+  PORTER
+  MANAGER
+}
+
+enum PackageStatus {
+  PENDING
+  DELIVERED
+  PICKED_UP
+}
+
+enum PackageAction {
+  CREATED
+  DELIVERED
+  PICKED_UP
+}
+
+model Condominium {
+  id        String   @id @default(uuid())
+  name      String
+  address   String
+  createdAt DateTime @default(now())
+
+  buildings Building[]
+  users     User[]
+}
+
+model Building {
+  id            String      @id @default(uuid())
+  name          String
+  condominiumId String
+  condominium   Condominium @relation(fields: [condominiumId], references: [id])
+
+  apartments Apartment[]
+}
+
+model Apartment {
+  id         String   @id @default(uuid())
+  number     String
+  floor      Int?
+  buildingId String
+  building   Building @relation(fields: [buildingId], references: [id])
+
+  residents Resident[]
+  packages  Package[]
+
+  @@unique([buildingId, number])
+}
+
+model User {
+  id            String      @id @default(uuid())
+  name          String
+  email         String      @unique
+  password      String?
+  role          UserRole
+  condominiumId String
+  condominium   Condominium @relation(fields: [condominiumId], references: [id])
+
+  packageLogs PackageLog[]
+}
+
+model Resident {
+  id          String    @id @default(uuid())
+  name        String
+  email       String
+  password    String?
+  phone       String?
+  apartmentId String
+  apartment   Apartment @relation(fields: [apartmentId], references: [id])
+
+  notifications Notification[]
+
+  @@index([apartmentId])
+}
+
+model Package {
+  id          String        @id @default(uuid())
+  apartmentId String
+  status      PackageStatus @default(PENDING)
+
+  createdBy   String?
+  createdAt   DateTime  @default(now())
+  deliveredAt DateTime?
+  pickedUpAt  DateTime?
+
+  apartment Apartment @relation(fields: [apartmentId], references: [id])
+
+  images PackageImage[]
+  logs   PackageLog[]
+}
+
+model PackageImage {
+  id        String   @id @default(uuid())
+  url       String
+  type      String?
+  packageId String
+  createdAt DateTime @default(now())
+
+  package Package @relation(fields: [packageId], references: [id])
+}
+
+model PackageLog {
+  id          String        @id @default(uuid())
+  packageId   String
+  action      PackageAction
+  performedBy String?
+  metadata    Json?
+  createdAt   DateTime      @default(now())
+
+  package Package @relation(fields: [packageId], references: [id])
+  user    User?   @relation(fields: [performedBy], references: [id])
+}
+
+model Notification {
+  id         String   @id @default(uuid())
+  residentId String
+  message    String
+  read       Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  resident Resident @relation(fields: [residentId], references: [id])
+}
