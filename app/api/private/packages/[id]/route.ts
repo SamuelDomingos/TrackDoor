@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from "next/server";
 import { getPackageDetails } from "@/app/api/private/services/resident.service";
 import { AuthService } from "@/app/api/private/services/auth.service";
