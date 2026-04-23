@@ -1,5 +1,3 @@
-import prisma from "@/lib/prisma"
-
 export async function getBuildings(condominiumId: string) {
   const buildings = [
     {
@@ -21,18 +19,19 @@ export async function getBuildings(condominiumId: string) {
         { id: "apt-5", number: "102", _count: { packages: 5 } },
       ],
     },
-  ];
+  ]
 
-  const totalTowers = buildings.length;
+  const totalTowers = buildings.length
   const totalApts = buildings.reduce(
     (acc, b) => acc + (b.apartments?.length || 0),
     0
-  );
+  )
   const totalPending = buildings.reduce(
     (acc, b) =>
-      acc + (b.apartments?.filter((a: any) => a._count.packages > 0).length || 0),
+      acc +
+      (b.apartments?.filter((a: any) => a._count.packages > 0).length || 0),
     0
-  );
+  )
 
-  return { buildings, totalTowers, totalApts, totalPending };
+  return { buildings, totalTowers, totalApts, totalPending }
 }

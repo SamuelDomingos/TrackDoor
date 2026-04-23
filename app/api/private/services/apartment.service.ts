@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma"
 import { ApartmentCreateManyInput, ApartmentUncheckedUpdateManyInput } from "@/app/generated/models"
-import { PackageStatus } from "@prisma/client"
+import { PackageStatus } from "@/app/generated/enums"
 
 export class ApartmentService {
   async getApartmentDetails(id: string) {

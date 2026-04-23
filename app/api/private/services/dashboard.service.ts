@@ -1,5 +1,5 @@
+import { PackageStatus } from "@/app/generated/enums";
 import prisma from "@/lib/prisma";
-import { PackageStatus } from "@prisma/client";
 
 export class DashboardService {
   async getDashboardStats() {
